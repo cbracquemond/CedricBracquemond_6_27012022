@@ -3,7 +3,6 @@ const mongoose = require("mongoose")
 const cors = require("cors")
 const sauceRoute = require("./routes/sauce")
 const userRoute = require("./routes/user")
-const sauce = require("./models/sauce")
 const path = require("path") //Pour pouvoir trouver le chemin statique du dossier images
 const app = express()
 

@@ -32,7 +32,18 @@ exports.getSauces = (req, res) => {
 		.catch((error) => res.status(400).json({ error }))
 }
 
-exports.updateSauce = (req, res) => {
+// exports.updateSauce = (req, res) => {
+// 	console.log(req.body)
+// 	if (req.body === null) {
+// 		res.status(400).json({ message: "le body est vide" })
+// 	}
+// 	Sauce.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+// 		.then(() => res.status(200).json({ message: "Objet modifié !" }))
+// 		.catch((error) => res.status(400).json({ error }))
+// }
+
+exports.updateSauce = (req, res, next) => {
+	console.log(req.body)
 	const sauceObject = req.file
 		? {
 				...JSON.parse(req.body.sauce),
@@ -52,6 +63,8 @@ exports.updateSauce = (req, res) => {
 exports.deleteSauce = (req, res) => {
 	Sauce.findOne({ _id: req.params.id })
 		.then((sauce) => {
+			if (req.body.userIdFromToken !== sauce.userId) {
+			}
 			const filename = sauce.imageUrl.split("/images/")[1]
 			fs.unlink(`images/${filename}`, () => {
 				Sauce.deleteOne({ _id: req.params.id })

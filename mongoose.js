@@ -1,7 +1,9 @@
 const mongoose = require("mongoose")
-
 const password = process.env.DB_PASSWORD
-const uri = `mongodb+srv://cbracquemond:${password}@hottakes.lsuue.mongodb.net/HotTakes?retryWrites=true&w=majority`
+const userName = process.env.DB_USERNAME
+const database = process.env.DB_NAME
+
+const uri = `mongodb+srv://${userName}:${password}@hottakes.lsuue.mongodb.net/${database}?retryWrites=true&w=majority`
 
 mongoose
 	.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })

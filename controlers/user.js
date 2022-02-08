@@ -1,9 +1,9 @@
 const bcrypt = require("bcrypt")
 const User = require("../models/user")
 const jwt = require("jsonwebtoken")
+const sercretKey = process.env.SECRET_KEY
 
 exports.signup = (req, res) => {
-	//mettre un test de présence
 	bcrypt
 		.hash(req.body.password, 10)
 		.then((hash) => {
@@ -33,7 +33,7 @@ exports.login = (req, res) => {
 					}
 					res.status(200).json({
 						userId: user._id,
-						token: jwt.sign({ userId: user._id }, "3}.FKF.xGBxhPT5", {
+						token: jwt.sign({ userId: user._id }, sercretKey, {
 							expiresIn: "24h"
 						})
 					})

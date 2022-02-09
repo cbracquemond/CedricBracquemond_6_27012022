@@ -80,15 +80,21 @@ exports.deleteSauce = (req, res) => {
 }
 
 function updateLike(sauce, like, userId) {
+	const { usersLiked, usersDisliked } = sauce
 	if (like != 0) {
-		const arrayToUpdate = like === 1 ? sauce.usersLiked : sauce.usersDisliked
+		const arrayToUpdate = like === 1 ? usersLiked : usersDisliked
 		if (arrayToUpdate.includes(userId)) return
 		arrayToUpdate.push(userId)
 	}
-	if ((like = 0)) {
+	if (like === 0) {
+		const arrayToUpdate = usersLiked.includes(userId)
+			? usersLiked
+			: usersDisliked
+		const index = arrayToUpdate.findIndex((id) => id == userId)
+		arrayToUpdate.splice(index, 1)
 	}
-	sauce.likes = sauce.usersLiked.length
-	sauce.dislikes = sauce.usersDisliked.length
+	sauce.likes = usersLiked.length
+	sauce.dislikes = usersDisliked.length
 	return sauce.save()
 }
 

@@ -78,3 +78,26 @@ exports.deleteSauce = (req, res) => {
 		})
 		.catch((error) => res.status(500).json({ error }))
 }
+
+function updateLike(sauce, like, userId) {
+	if (like != 0) {
+		const arrayToUpdate = like === 1 ? sauce.usersLiked : sauce.usersDisliked
+		if (arrayToUpdate.includes(userId)) return
+		arrayToUpdate.push(userId)
+	}
+	if ((like = 0)) {
+	}
+	sauce.likes = sauce.usersLiked.length
+	sauce.dislikes = sauce.usersDisliked.length
+	return sauce.save()
+}
+
+exports.likeSauce = (req, res) => {
+	const { like, userId } = req.body
+	if (![0, 1, -1].includes(like))
+		return res.status(400).json({ message: "bad request" })
+	Sauce.findOne({ _id: req.params.id })
+		.then((sauce) => updateLike(sauce, like, userId))
+		.then(() => res.status(201).json({ message: "Vote enregistré !" }))
+		.catch((error) => res.status(400).json({ error }))
+}

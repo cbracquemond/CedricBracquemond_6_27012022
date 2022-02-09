@@ -1,3 +1,9 @@
+/**		A faire: Effacer ancienne image du back après un put
+ * 		refactor createSauce pour retirer le code redondant de récupération de l'id
+ * 		Change deleteSauce pour passer l'erreur en haut avec un return
+ * 		Tout commenter
+ */
+
 require("dotenv").config()
 const express = require("express")
 const cors = require("cors")
@@ -10,7 +16,7 @@ require("./mongoose")
 //Middlewares:
 //Permet d'éviter les erreurs CORS
 app.use(cors())
-//permet d'acceder au corps de la requete
+//permet d'acceder au corps de la requête
 app.use(express.json())
 
 //Routes

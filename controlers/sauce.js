@@ -6,9 +6,7 @@ const sercretKey = process.env.SECRET_KEY
 exports.createSauce = (req, res) => {
 	const sauceObject = JSON.parse(req.body.sauce)
 	delete sauceObject._id
-	const token = req.headers.authorization.split(" ")[1]
-	const decodedToken = jwt.verify(token, sercretKey)
-	const userId = decodedToken.userId
+	const userId = res.locals.userId
 	const sauce = new Sauce({
 		userId: userId,
 		name: sauceObject.name,
@@ -58,33 +56,19 @@ exports.updateSauce = (req, res, next) => {
 			{ _id: req.params.id },
 			{ ...sauceObject, _id: req.params.id }
 		)
-		fs.unlink(`images/${imageToDelete}`, () =>
-			res.status(200).json({ message: "Objet modifié !" })
-		).catch((error) => res.status(400).json({ error }))
+			.then(
+				fs.unlink(`images/${imageToDelete}`, () =>
+					res.status(200).json({ message: "Objet modifié !" })
+				)
+			)
+			.catch((error) => res.status(400).json({ error }))
 	})
 }
-
-// exports.updateSauce = (req, res, next) => {
-// 	const sauceObject = req.file
-// 		? {
-// 				...JSON.parse(req.body.sauce),
-// 				imageUrl: `${req.protocol}://${req.get("host")}/images/${
-// 					req.file.filename
-// 				}`
-// 		  }
-// 		: { ...req.body }
-// 	Sauce.updateOne(
-// 		{ _id: req.params.id },
-// 		{ ...sauceObject, _id: req.params.id }
-// 	)
-// 		.then(() => res.status(200).json({ message: "Objet modifié !" }))
-// 		.catch((error) => res.status(400).json({ error }))
-// }
 
 exports.deleteSauce = (req, res) => {
 	Sauce.findOne({ _id: req.params.id })
 		.then((sauce) => {
-			if (req.body.userIdFromToken != sauce.userId) {
+			if (res.locals.userId != sauce.userId) {
 				res
 					.status(400)
 					.json({ message: "Vous n'avez pas les droits pour cette requête!" })

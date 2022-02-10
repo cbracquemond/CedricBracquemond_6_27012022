@@ -1,7 +1,4 @@
-/**		A faire: Effacer ancienne image du back après un put
- * 		refactor createSauce pour retirer le code redondant de récupération de l'id
- * 		Change deleteSauce pour passer l'erreur en haut avec un return
- * 		Tout commenter
+/**		Tout commenter
  */
 
 require("dotenv").config()

@@ -1,7 +1,5 @@
 const Sauce = require("../models/sauce")
 const fs = require("fs")
-const jwt = require("jsonwebtoken")
-const sercretKey = process.env.SECRET_KEY
 
 exports.createSauce = (req, res) => {
 	const sauceObject = JSON.parse(req.body.sauce)
@@ -50,19 +48,21 @@ exports.updateSauce = (req, res, next) => {
 		  }
 		: { ...req.body }
 
-	Sauce.findOne({ _id: req.params.id }).then((sauce) => {
-		const imageToDelete = sauce.imageUrl.split("/images/")[1]
-		Sauce.updateOne(
-			{ _id: req.params.id },
-			{ ...sauceObject, _id: req.params.id }
-		)
-			.then(
-				fs.unlink(`images/${imageToDelete}`, () =>
-					res.status(200).json({ message: "Objet modifié !" })
-				)
+	Sauce.findOne({ _id: req.params.id })
+		.then((sauce) => {
+			const imageToDelete = sauce.imageUrl.split("/images/")[1]
+			Sauce.updateOne(
+				{ _id: req.params.id },
+				{ ...sauceObject, _id: req.params.id }
 			)
-			.catch((error) => res.status(400).json({ error }))
-	})
+				.then(
+					fs.unlink(`images/${imageToDelete}`, () =>
+						res.status(200).json({ message: "Objet modifié !" })
+					)
+				)
+				.catch((error) => res.status(400).json({ error }))
+		})
+		.catch((error) => res.status(400).json({ error }))
 }
 
 exports.deleteSauce = (req, res) => {

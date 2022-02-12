@@ -4,7 +4,7 @@ const fs = require("fs")
 exports.createSauce = (req, res) => {
 	const sauceObject = JSON.parse(req.body.sauce)
 	delete sauceObject._id
-	const userId = res.locals.userId
+	const userId = res.locals.userId // => taken from the auth.js middleware
 	const sauce = new Sauce({
 		userId: userId,
 		name: sauceObject.name,

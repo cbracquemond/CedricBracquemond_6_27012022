@@ -84,11 +84,28 @@ exports.deleteSauce = (req, res) => {
 		.catch((error) => res.status(500).json({ error }))
 }
 
+/**
+ * Find the index of the userId in the array. Then if it's present, remove it
+ * @param {array} array
+ * @param {string} userId
+ */
 function removeUserFromArray(array, userId) {
 	const index = array.findIndex((id) => id == userId)
 	if (index != -1) array.splice(index, 1)
 }
 
+/**
+ * Check if the call is a vote (1 or -1) or the removal of a vote (0),
+ * if a vote: will include the userId to the relevant array and check
+ * the other one to remove it if necessary
+ * if a removal: will remove the userId from the relevant array
+ * then will update the number of like and dislike with the length of both array
+ * and return a promise from the sauce.save() function
+ * @param {object} sauce
+ * @param {number} like
+ * @param {array} userId
+ * @returns promise
+ */
 function updateLike(sauce, like, userId) {
 	const { usersLiked, usersDisliked } = sauce
 	if (like != 0) {

@@ -112,6 +112,7 @@ function updateLike(sauce, like, userId) {
 		const arrayToUpdate = like === 1 ? usersLiked : usersDisliked
 		const arrayToCheck = like === 1 ? usersDisliked : usersLiked
 		removeUserFromArray(arrayToCheck, userId)
+		//Stop the function if the vote is already present
 		if (arrayToUpdate.includes(userId)) return
 		arrayToUpdate.push(userId)
 	}

@@ -8,10 +8,10 @@ Steps to launch the server:
 - Create a folder named " images " at the root of the back-end folder
 - Create a .env file at the root of the back-end folder, and past it the following lines:
 
-DB_PASSWORD = #put your user password here
-DB_USERNAME = #put your user username here
-DB_NAME = #put your database name here
-DB_CLUSTERNAME = #put your cluster name here
+DB_PASSWORD = #put your user password here  
+DB_USERNAME = #put your user username here  
+DB_NAME = #put your database name here  
+DB_CLUSTERNAME = #put your cluster name here  
 SECRET_KEY = #put a secret key for the jwt module here
 
 - Change the commented section with your database login credential, and a secret key for the jwt module

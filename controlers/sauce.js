@@ -129,6 +129,7 @@ function updateLike(sauce, like, userId) {
 
 exports.likeSauce = (req, res) => {
 	const { like, userId } = req.body
+	//Stop the function if the value of like isn't 0, 1 or -1
 	if (![0, 1, -1].includes(like))
 		return res.status(400).json({ message: "bad request" })
 	Sauce.findOne({ _id: req.params.id })
